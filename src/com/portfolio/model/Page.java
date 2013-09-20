@@ -1,8 +1,9 @@
 package com.portfolio.model;
 
+import com.portfolio.activities.CustomThemeWindow;
 import com.portfolio.model.interfaces.IPage;
 
-public abstract class Page implements IPage {
+public abstract class  Page extends CustomThemeWindow implements IPage {
 
 	protected int type;
 	protected String name;
