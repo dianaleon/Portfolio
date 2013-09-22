@@ -1,5 +1,6 @@
 package com.portfolio.model;
 
+import com.portfolio.model.entities.TextPage;
 import com.portfolio.model.interfaces.IPage;
 
 public class PortfolioModel {

@@ -1,4 +1,4 @@
-package com.portfolio.model;
+package com.portfolio.model.entities;
 
 import java.util.List;
 
