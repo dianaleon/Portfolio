@@ -4,10 +4,12 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.Handler;
+import android.os.Looper;
 
 import com.portfolio.connection.ConnectionPool;
 import com.portfolio.connection.MyAsyncTask;
 import com.portfolio.handler.AsyncTaskHandler;
+import com.portfolio.model.entities.Portfolio;
 
 public class GetPortfolioAsyncTask extends MyAsyncTask{
 	
@@ -15,26 +17,20 @@ public class GetPortfolioAsyncTask extends MyAsyncTask{
 	 
 	private Handler handler;
 	private JSONObject param;
-//	private Register response;
+	private Portfolio response;
 	
 	public GetPortfolioAsyncTask(Context ctx, Handler handler) {
 		super(ctx);
 		this.handler = handler;
-		try {
-//			this.param = RegisterJSON.getInstance().serialize(user, categories);
-		} catch (Exception e) {
-			e.printStackTrace();
-			param = null;
-		}
 	}
 
 	@Override
 	protected Integer doInBackground(Integer... arg0) {
 		try {
+			Looper.prepare();
 			ConnectionPool pool = ConnectionPool.getInstanced(_context);
-			JSONObject result = pool.request("user/register", param);
-//			response = (Register) RegisterJSON.getInstance().deserialize(result);
-//			user.setCode(response.getUserID());
+			JSONObject result = pool.request("", param);
+			response = new Portfolio(result);
 		} catch (Exception e) {
 			return AsyncTaskHandler.ERRORREQUEST; 
 		}
@@ -46,12 +42,7 @@ public class GetPortfolioAsyncTask extends MyAsyncTask{
 		android.os.Message msg = new android.os.Message();
 		msg.what = result;
 		if(result == AsyncTaskHandler.ACEPTREQUEST){
-//			if(response.getCode()==101){
-//				msg.obj = user;
-//			}else{
-//				msg.what = AsyncTaskHandler.ERRORREQUEST;
-//				msg.arg1 = typeError;
-//			}
+			msg.obj = response;
 		}
 		handler.sendMessage(msg);
 	}

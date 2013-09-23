@@ -22,8 +22,9 @@ public class MainActivity extends Activity {
 		
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.window_title);
 
-		PortfolioModel portfolioModel = PortfolioModel.getInstance();
-		int pagesCount = portfolioModel.getNumberPages();
+//		PortfolioModel portfolioModel = PortfolioModel.getInstance(this);
+//		portfolioModel.getPortfolio();
+//		int pagesCount = portfolioModel.getNumberPages();
 //		IPage pageNum1 = portfolioModel.getPageInfo(1);
 //		switch (pageNum1.getType()) {
 //			case IPage.type_text:
