@@ -7,11 +7,12 @@ import android.view.Menu;
 import android.view.Window;
 
 import com.portfolio.activities.TextActivity;
+import com.portfolio.listener.IPortfolioListener;
 import com.portfolio.model.PortfolioModel;
 import com.portfolio.model.interfaces.IPage;
 import com.portfolio.model.interfaces.ITextPage;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements IPortfolioListener{
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -22,22 +23,8 @@ public class MainActivity extends Activity {
 		
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.window_title);
 
-//		PortfolioModel portfolioModel = PortfolioModel.getInstance(this);
-//		portfolioModel.getPortfolio();
-//		int pagesCount = portfolioModel.getNumberPages();
-//		IPage pageNum1 = portfolioModel.getPageInfo(1);
-//		switch (pageNum1.getType()) {
-//			case IPage.type_text:
-//				ITextPage textPage = (ITextPage) pageNum1;
-//				Intent intent = new Intent(MainActivity.this, TextActivity.class);
-//				intent.putExtra("text", textPage.getText());
-//				startActivity(intent);
-//				break;
-//	
-//			default:
-//				break;
-//			}
-//		finish();
+		PortfolioModel portfolioModel = PortfolioModel.getInstance(this);
+		portfolioModel.getPortfolio(this);
 	}
 
 	@Override
@@ -45,6 +32,25 @@ public class MainActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+
+	@Override
+	public void onPortfolioReady() {
+		PortfolioModel portfolioModel = PortfolioModel.getInstance(this);
+		int pagesCount = portfolioModel.getNumberPages();
+		IPage pageNum1 = portfolioModel.getPageInfo(1);
+		switch (pageNum1.getType()) {
+			case IPage.type_text:
+				ITextPage textPage = (ITextPage) pageNum1;
+				Intent intent = new Intent(MainActivity.this, TextActivity.class);
+				intent.putExtra("text", textPage.getText());
+				startActivity(intent);
+				break;
+	
+			default:
+				break;
+			}
+		finish();		
 	}
 
 }

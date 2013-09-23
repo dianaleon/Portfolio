@@ -5,6 +5,7 @@ import android.os.Message;
 
 import com.portfolio.asyncTask.GetPortfolioAsyncTask;
 import com.portfolio.handler.AsyncTaskHandler;
+import com.portfolio.listener.IPortfolioListener;
 import com.portfolio.model.entities.Portfolio;
 import com.portfolio.model.interfaces.IPage;
 
@@ -14,6 +15,7 @@ public class PortfolioModel {
 	
 	private Portfolio portfolio;
 	private Context context;
+	private IPortfolioListener callback;
 	
 	private PortfolioModel(Context context) {
 		this.context = context;
@@ -26,14 +28,15 @@ public class PortfolioModel {
 		return instance;
 	}
 	
-	public void getPortfolio() {
+	public void getPortfolio(final IPortfolioListener callback) {
+		this.callback = callback;
 		GetPortfolioAsyncTask task = new GetPortfolioAsyncTask(context, new AsyncTaskHandler(context) {
 
 			@Override
 			public void acceptRequest(Message msg) {
 				Portfolio portfolio = (Portfolio) msg.obj;
 				PortfolioModel.instance.portfolio = portfolio;
-				System.out.println("das");
+				callback.onPortfolioReady();
 			}
 		});
 		task.exec();

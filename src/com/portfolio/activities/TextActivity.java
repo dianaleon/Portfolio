@@ -3,6 +3,7 @@ package com.portfolio.activities;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.widget.TextView;
 
 import com.portfolio.R;
 
@@ -15,7 +16,8 @@ public class TextActivity extends Activity {
         Bundle bundle = this.getIntent().getExtras();
 
         String text = bundle.getString("text");
-        //TODO text to show
+        TextView textView = (TextView) findViewById(R.id.text);
+        textView.setText(text);
 
 	}
 
