@@ -13,7 +13,6 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.util.Log;
 
-import com.portfolio.utils.Config;
 import com.portfolio.utils.FileHelper;
 
 public class ConnectionPool extends ServerController {
@@ -44,26 +43,20 @@ public class ConnectionPool extends ServerController {
 		}
 	}
 
-	public String downloadFromURL(String resource, JSONObject jsonRequest, String filename) {
+	public String downloadFromURL(String urlPath, String filename) {
 
 		String filepath = null;
 
 		try {
 
-			URL url = new URL(Config.getUrl() + resource + "?JSON=" + jsonRequest.toString() +"&locale=es");
+			URL url = new URL(urlPath);
 
 			// create the new connection
 
-			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-
-			// set up some things on the connection
-			urlConnection.setRequestMethod("GET");
-			urlConnection.setDoOutput(true);
-
-			// and connect!
-
-			urlConnection.connect();
-
+			HttpURLConnection connection = (HttpURLConnection) url
+	                .openConnection();
+	        connection.setDoInput(true);
+	        connection.connect();
 			// set the path where we want to save the file
 			// in this case, going to save it on the root directory of the
 			// sd card.
@@ -75,10 +68,10 @@ public class ConnectionPool extends ServerController {
 				FileOutputStream fileOutput = new FileOutputStream(file);
 	
 				// this will be used in reading the data from the internet
-				InputStream inputStream = urlConnection.getInputStream();
+				InputStream inputStream = connection.getInputStream();
 	
 				// this is the total size of the file
-				int totalSize = urlConnection.getContentLength();
+				int totalSize = connection.getContentLength();
 				// variable to store total downloaded bytes
 				int downloadedSize = 0;
 	

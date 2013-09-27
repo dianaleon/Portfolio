@@ -9,5 +9,6 @@
     <string name="connection_error">Error de conexión</string>
     <string name="message_loading_label">Cargando...por favor espere</string>
     <string name="dialog_general_error">Ha ocurrido un error</string>
+    <string name="databaseVersion">1</string>
     
 </resources>

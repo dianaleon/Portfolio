@@ -2,14 +2,17 @@ package com.portfolio;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.Window;
+import android.widget.ImageView;
 
 import com.portfolio.activities.TextActivity;
 import com.portfolio.listener.IPortfolioListener;
 import com.portfolio.model.PortfolioModel;
 import com.portfolio.model.interfaces.IPage;
+import com.portfolio.model.interfaces.IPhotoGaleryPage;
 import com.portfolio.model.interfaces.ITextPage;
 
 public class MainActivity extends Activity implements IPortfolioListener{
@@ -38,7 +41,7 @@ public class MainActivity extends Activity implements IPortfolioListener{
 	public void onPortfolioReady() {
 		PortfolioModel portfolioModel = PortfolioModel.getInstance(this);
 		int pagesCount = portfolioModel.getNumberPages();
-		IPage pageNum1 = portfolioModel.getPageInfo(1);
+		IPage pageNum1 = portfolioModel.getPageInfo(2);
 		switch (pageNum1.getType()) {
 			case IPage.type_text:
 				ITextPage textPage = (ITextPage) pageNum1;
@@ -46,11 +49,22 @@ public class MainActivity extends Activity implements IPortfolioListener{
 				intent.putExtra("text", textPage.getText());
 				startActivity(intent);
 				break;
+			case IPage.type_photo_galery:
+				IPhotoGaleryPage photoPage = (IPhotoGaleryPage) pageNum1;
+				String url = photoPage.getImagesUrl().get(0);
+				portfolioModel.getMedia(this, url);
+				break;
 	
 			default:
 				break;
 			}
-		finish();		
+//		finish();		
+	}
+
+	@Override
+	public void onImageReady(Bitmap bitmap) {
+		ImageView imageView = (ImageView) getWindow().findViewById(R.id.image);
+		imageView.setImageBitmap(bitmap);
 	}
 
 }
